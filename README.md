@@ -1,9 +1,15 @@
 # uploadmate-apis
 
 ##Routes and endpoints:
- - to get all users : http://localhost:8002/api/user
- - to get one user : http://localhost:8002/api/user/:id
- - to signup : http://localhost:8002/api/user/signup
- - to login : http://localhost:8002/api/user/login
- - to delete user : http://localhost:8002/api/user/:id
- - to update user details : http://localhost:8002/api/user/:id 
+
+ - to signup : https:/uploadmate-api.vercel.app/api/user/signup
+
+ - to login : https:/uploadmate-api.vercel.app/api/user/login
+
+ - to get all users : https:/uploadmate-api.vercel.app/api/user
+ 
+ - to get one user : https:/uploadmate-api.vercel.app/api/user/:id
+
+ - to delete user : https:/uploadmate-api.vercel.app/api/user/:id
+
+ - to update user details : https:/uploadmate-api.vercel.app/api/user/:id 
