@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const userRoutes = require('./routes/user')
+const editorRoutes = require('./routes/editors')
 const cors = require('cors');
 
 // express app
@@ -21,6 +22,11 @@ app.use((req, res, next) => {
 
 // routes
 app.use('/api/user', userRoutes)
+app.use('/api/editor', editorRoutes)
+
+app.get('/', (req,res)=>{
+  res.status(200).json("Every thing is working use endpoints to use api")
+})
 
 
 // connect to db

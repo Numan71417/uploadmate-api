@@ -7,7 +7,8 @@ const {
     getUser, 
     updateUser,
     getAllUsers, 
-    deleteUser
+    deleteUser,
+    addEditor
 } = require('../controllers/userController')
 
 const router = express.Router()
@@ -29,5 +30,8 @@ router.delete('/:id', deleteUser)
 
 // get all users route
 router.get('/', getAllUsers)
+
+// add client route
+router.put('/addeditor/:userId/:editorId', addEditor)
 
 module.exports = router

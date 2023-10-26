@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const Editor = require('../models/editorModel')
 const jwt = require('jsonwebtoken')
 
 const createToken = (_id) => {
@@ -16,8 +17,9 @@ const loginUser = async (req, res) => {
     const token = createToken(user._id)
     const username = user.username;
     const image = user.image;
+    const creatorId = user.creatorId;
 
-    res.status(200).json({username , email,image,token})
+    res.status(200).json({username , email,image, creatorId ,token})
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -25,15 +27,15 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const {username, email, password,image} = req.body
+  const {username, email, password,image,creatorId} = req.body
 
   try {
-    const user = await User.signup(username,email, password,image)
+    const user = await User.signup(username,email, password,image,creatorId)
 
     // create a token
     const token = createToken(user._id)
 
-    res.status(200).json({username, email, image, token})
+    res.status(200).json({username, email, image, token,creatorId})
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -109,5 +111,36 @@ const deleteUser = async (req, res) => {
 };
 
 
+const addEditor = async (req, res) => {
+  const { userId, editorId } = req.params;
 
-module.exports = { signupUser, loginUser  , getUser, updateUser,getAllUsers , deleteUser }
+  try {
+    // Find the editor by ID and update its clients array
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { editors: editorId } }, // Use $addToSet to add the user ID if it doesn't already exist in the array
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'user not found' });
+    }
+
+    // Find the user by ID
+    const editor = await Editor.findById(editorId);
+
+    if (!editor) {
+      return res.status(404).json({ error: 'editor not found' });
+    }
+
+    res.status(200).json(updatedUser);
+  
+  }catch (e) {
+    res.status(422).json({ error: e.message });
+  }
+
+}
+
+
+
+module.exports = { signupUser, loginUser  , getUser, updateUser,getAllUsers , deleteUser,addEditor }
