@@ -1,7 +1,8 @@
 # uploadmate-apis
 
-##Routes and endpoints:
+## Routes and endpoints:
 
+### user routes:
  - to signup : https://uploadmate-api.vercel.app/api/user/signup
 
  - to login : https://uploadmate-api.vercel.app/api/user/login
@@ -13,3 +14,25 @@
  - to delete user : https://uploadmate-api.vercel.app/api/user/:id
 
  - to update user details : https://uploadmate-api.vercel.app/api/user/:id 
+
+
+### editors routes:
+ - to signup : https://uploadmate-api.vercel.app/api/editor/signup
+
+ - to login : https://uploadmate-api.vercel.app/api/editor/login
+
+ - to get all editors : https://uploadmate-api.vercel.app/api/editor
+ 
+ - to get one editor : https://uploadmate-api.vercel.app/api/editor/:id
+
+ - to delete editor : https://uploadmate-api.vercel.app/api/editor/:id
+
+ - to update editor details : https://uploadmate-api.vercel.app/api/editor/:id 
+
+
+### To add an editor by client
+
+- PUT :  https://uploadmate-api.vercel.app/api/user/addeditor/userid:/editorid: 
+
+### To add a client by editor
+- PUT :  https://uploadmate-api.vercel.app/api/editor/addclient/editorid:/userid: 
