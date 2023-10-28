@@ -8,7 +8,8 @@ const {
     updateEditor,
     getAllEditors, 
     deleteEditor,
-    addClient
+    addClient,
+    googlelogin
 } = require('../controllers/editorController')
 
 const router = express.Router()
@@ -18,6 +19,9 @@ router.post('/login', loginEditor)
 
 // signup route
 router.post('/signup', signupEditor)
+
+// google se login route
+router.post('/googlelogin', googlelogin)
 
 // update route
 router.put('/:id', updateEditor)

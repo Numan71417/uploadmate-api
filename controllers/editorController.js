@@ -26,6 +26,38 @@ const loginEditor = async (req, res) => {
   }
 }
 
+//google se login
+const googlelogin = async(req, res)=>{
+  try {
+    
+    const {username,email,image} = req.body;
+  
+    const editor = await Editor.findOne({email})
+  
+    if(editor){
+      res.status(200).json(editor)
+    }else{
+      try {
+        const editor = await Editor.signup(username,email,username,image)
+
+         // create a token
+        const token = createToken(editor._id);
+        const id = editor._id;
+        const editors = editor.editors;
+        // const image = user.image;
+
+        res.status(200).json({username, email, image, token,id,editors})
+        
+      } catch (error) {
+        res.status(400).json({error: error.message})
+      }
+    }
+
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
+}
+
 // signup a editor
 const signupEditor = async (req, res) => {
   const {username, email, password,image,creatorId} = req.body
@@ -176,4 +208,6 @@ module.exports = {
     updateEditor,
     getAllEditors , 
     deleteEditor,
-    addClient }
+    addClient,
+    googlelogin
+  }

@@ -27,6 +27,37 @@ const loginUser = async (req, res) => {
   }
 }
 
+const googlelogin = async(req, res)=>{
+  try {
+    
+    const {username,email,image} = req.body;
+  
+    const user = await User.findOne({email})
+  
+    if(user){
+      res.status(200).json(user)
+    }else{
+      try {
+        const user = await User.signup(username,email,username,image)
+
+         // create a token
+        const token = createToken(user._id);
+        const id = user._id;
+        const editors = user.editors;
+        // const image = user.image;
+
+        res.status(200).json({username, email, image, token,id,editors})
+        
+      } catch (error) {
+        res.status(400).json({error: error.message})
+      }
+    }
+
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
+}
+
 // signup a user
 const signupUser = async (req, res) => {
   const {username, email, password,image,creatorId} = req.body
@@ -147,4 +178,13 @@ const addEditor = async (req, res) => {
 
 
 
-module.exports = { signupUser, loginUser  , getUser, updateUser,getAllUsers , deleteUser,addEditor }
+module.exports = { 
+  signupUser, 
+  loginUser  , 
+  getUser, 
+  updateUser,
+  getAllUsers , 
+  deleteUser,
+  addEditor ,
+  googlelogin
+}

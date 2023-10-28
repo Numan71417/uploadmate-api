@@ -8,7 +8,8 @@ const {
     updateUser,
     getAllUsers, 
     deleteUser,
-    addEditor
+    addEditor,
+    googlelogin
 } = require('../controllers/userController')
 
 const router = express.Router()
@@ -18,6 +19,9 @@ router.post('/login', loginUser)
 
 // signup route
 router.post('/signup', signupUser)
+
+//  googlelogin route
+router.post('/googlelogin', googlelogin)
 
 // update route
 router.put('/:id', updateUser)
