@@ -18,8 +18,9 @@ const loginEditor = async (req, res) => {
     const username = editor.username;
     const image = editor.image;
     const clients = editor.clients;
+    const id = editor._id;
 
-    res.status(200).json({username , email,image ,token,clients})
+    res.status(200).json({username , email,image ,id,token,clients})
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -34,8 +35,10 @@ const signupEditor = async (req, res) => {
 
     // create a token
     const token = createToken(editor._id)
+    const id = editor._id;
+    const clients = editor.clients;
 
-    res.status(200).json({username, email, image, token})
+    res.status(200).json({username, email, image,id,clients, token})
   } catch (error) {
     res.status(400).json({error: error.message})
   }
