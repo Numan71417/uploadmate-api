@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const Editor = require('../models/editorModel')
 const jwt = require('jsonwebtoken')
+const Requests = require('../models/requestModel')
 
 const createToken = (_id) => {
   return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d' })
@@ -147,13 +148,14 @@ const deleteUser = async (req, res) => {
 
 
 const addEditor = async (req, res) => {
-  const { userId, editorId } = req.params;
+  const { userId } = req.params;
+  const {editorname,username} = req.body;
 
   try {
     // Find the editor by ID and update its clients array
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { editors: editorId } }, // Use $addToSet to add the user ID if it doesn't already exist in the array
+      { $addToSet: { editors: editorname } }, // Use $addToSet to add the user ID if it doesn't already exist in the array
       { new: true }
     );
 
@@ -161,14 +163,17 @@ const addEditor = async (req, res) => {
       return res.status(404).json({ error: 'user not found' });
     }
 
-    // Find the user by ID
-    const editor = await Editor.findById(editorId);
+    const requests = await Requests.findOne({ sender: editorname, receiver: username })
+    if(requests){
+      requests.status = "approved"
+      await requests.save();
+      return res.status(200).json({requests,msg:"successfully added the editor",updatedUser});
 
-    if (!editor) {
-      return res.status(404).json({ error: 'editor not found' });
+    }else{
+
+      return res.status(404).json({ error: 'user not found' });
+
     }
-
-    res.status(200).json(updatedUser);
   
   }catch (e) {
     res.status(422).json({ error: e.message });

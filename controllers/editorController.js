@@ -1,4 +1,5 @@
 const Editor = require('../models/editorModel')
+const Requests = require('../models/requestModel')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
@@ -170,28 +171,31 @@ const updateEditor = async (req, res) => {
 
 
 const addClient = async (req, res) => {
-        const { editorId, userId } = req.params;
+        const { editorId } = req.params;
+        const {username,editorname} = req.body;
       
         try {
           // Find the editor by ID and update its clients array
           const updatedEditor = await Editor.findByIdAndUpdate(
             editorId,
-            { $addToSet: { clients: userId } }, // Use $addToSet to add the user ID if it doesn't already exist in the array
+            { $addToSet: { clients: username } }, // Use $addToSet to add the user ID if it doesn't already exist in the array
             { new: true }
           );
-      
+
           if (!updatedEditor) {
             return res.status(404).json({ error: 'Editor not found' });
           }
-      
-          // Find the user by ID
-          const user = await User.findById(userId);
-      
-          if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+
+          //adding request to db
+          const addrequest = await Requests.findOne({ sender: editorname, receiver: username})
+          if(addrequest){
+            return res.status(400).json({ error: 'request already sent' });
           }
-      
-          res.status(200).json(updatedEditor);
+          else{
+            const requests = new Requests({ sender: editorname, receiver: username });
+            await requests.save();
+            return res.status(200).json({requests,msg:"Request is sent successfully",updatedEditor})
+          }       
         
         }catch (e) {
           res.status(422).json({ error: e.message });

@@ -27,8 +27,7 @@ const editorSchema = new Schema({
 
   clients: [
     {
-        type: Schema.Types.ObjectId, 
-        ref: 'User', 
+        type: String,    
     },
   ]
 

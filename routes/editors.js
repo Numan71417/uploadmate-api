@@ -9,7 +9,7 @@ const {
     getAllEditors, 
     deleteEditor,
     addClient,
-    googlelogin
+    googlelogin,
 } = require('../controllers/editorController')
 
 const router = express.Router()
@@ -36,6 +36,6 @@ router.delete('/:id', deleteEditor)
 router.get('/', getAllEditors)
 
 // add client route
-router.put('/addClient/:editorId/:userId', addClient)
+router.put('/addClient/:editorId', addClient)
 
 module.exports = router

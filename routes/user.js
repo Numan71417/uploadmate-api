@@ -36,6 +36,6 @@ router.delete('/:id', deleteUser)
 router.get('/', getAllUsers)
 
 // add client route
-router.put('/addeditor/:userId/:editorId', addEditor)
+router.put('/addeditor/:userId', addEditor)
 
 module.exports = router

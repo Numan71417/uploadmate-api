@@ -32,7 +32,10 @@
 
 ### To add an editor by client
 
-- PUT :  https://uploadmate-api.vercel.app/api/user/addeditor/:userid/:editorid 
+- PUT :  https://uploadmate-api.vercel.app/api/user/addeditor/:userid
+ - In body add username, editorname
+ 
 
 ### To add a client by editor
-- PUT :  https://uploadmate-api.vercel.app/api/editor/addclient/:editorid/:userid
+- PUT :  https://uploadmate-api.vercel.app/api/editor/addclient/:editorid
+ - In body add username, editorname

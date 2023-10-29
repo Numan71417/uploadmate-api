@@ -32,8 +32,7 @@ const userSchema = new Schema({
 
   editors: [
     {
-        type: Schema.Types.ObjectId, 
-        ref: 'Editor', 
+      type: String,  
     },
   ]
 
