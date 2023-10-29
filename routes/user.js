@@ -1,5 +1,6 @@
 const express = require('express')
 
+const requireAuth = require('../middleware/requireAuth')
 // controller functions
 const { 
     loginUser, 
@@ -33,7 +34,7 @@ router.get('/:id', getUser)
 router.delete('/:id', deleteUser)
 
 // get all users route
-router.get('/', getAllUsers)
+router.get('/',  getAllUsers)
 
 // add client route
 router.put('/addeditor/:userId', addEditor)

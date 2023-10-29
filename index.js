@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const userRoutes = require('./routes/user')
 const editorRoutes = require('./routes/editors')
 const requestRoutes = require('./routes/requests')
+const videoRoutes = require('./routes/videos')
 const cors = require('cors');
 
 // express app
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use('/api/user', userRoutes)
 app.use('/api/editor', editorRoutes)
 app.use('/api/', requestRoutes)
+app.use('/api/', videoRoutes)
 
 app.get('/', (req,res)=>{
   res.status(200).json("Every thing is working use endpoints to use api")
