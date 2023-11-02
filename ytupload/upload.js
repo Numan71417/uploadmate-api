@@ -18,17 +18,33 @@ var oAuth2Client;
 const authorize = async () => {
   const { client_secret, client_id, redirect_uris } = credentials.web;
   oAuth2Client = new OAuth2Client(client_id, client_secret, `http://localhost:8000/oauth2callback`);
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
 
-  console.log('Authorize this app by visiting this URL:', authUrl);
-  return authUrl
+    try {
+        const token = fs.readFileSync(TOKEN_PATH);
+        oAuth2Client.setCredentials(JSON.parse(token));
+        console.log(oAuth2Client)
+        return oAuth2Client;
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+
 };
 
+const getauthurl = async ()=>{
+    const { client_secret, client_id, redirect_uris } = credentials.web;
+    oAuth2Client = new OAuth2Client(client_id, client_secret, `http://localhost:8000/oauth2callback`);
+    const authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: SCOPES,
+      });
+    
+      console.log('Authorize this app by visiting this URL:', authUrl);
+      return authUrl
+}
+
 router.get('/auth', async(req, res) => {
-  const authurl = await authorize();
+  const authurl = await getauthurl();
   res.status(200).json(authurl);
 });
 
@@ -42,7 +58,7 @@ router.get('/oauth2callback', async (req, res) => {
   console.log('Authorization successful. You can close this window.');
   console.log(oAuth2Client)
 
-  res.status(200).json({tokens,msg:'Authorization successful. You can close this window.',oAuth2Client})
+  res.send('Authorization successful. You can close this tab.')
 });
 
 
@@ -55,6 +71,8 @@ router.post('/upload', async (req, res) => {
     keywords: req.body.keywords || 'keyword1, keyword2',
     privacyStatus: req.body.privacyStatus || 'public',
   };
+  
+  const oAuth2Client = await authorize();
 
   console.log(oAuth2Client)
 
